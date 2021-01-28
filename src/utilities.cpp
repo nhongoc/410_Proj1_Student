@@ -41,10 +41,36 @@ int stringToInt(const char *myString) {
 int loadData(const char* filename, bool ignoreFirstRow) {
 	stats.clear();
 	fstream mystream;
+	string line;
 	mystream.open(filename, ios::in);
-	if(!mystream.is_open()) {
+	if (!mystream.is_open()) {
 		return COULD_NOT_OPEN_FILE;
 	}
+	if (ignoreFirstRow) {
+		getline(mystream, line);
+	}
+	while(!mystream.eof()) {
+		getline(mystream, line);
+		stringstream ss(line);
+		process_stats stat;
+		string process_num;
+		string start_time;
+		string cpu_time;
+		string io_time;
+		getline(ss, process_num, ',');
+		getline(ss, start_time, ',');
+		getline(ss, cpu_time, ',');
+		getline(ss, io_time, ',');
+		if (process_num.length() < 1 || start_time.length() < 1 || cpu_time.length() < 1 || io_time.length() < 1) {
+			continue;
+		}
+		stat.process_number = stoi(process_num);
+		stat.start_time = stoi(start_time);
+		stat.cpu_time = stoi(cpu_time);
+		stat.io_time = stoi(io_time);
+		stats.push_back(stat);
+	}
+	mystream.close();
 	return SUCCESS;
 }
 
