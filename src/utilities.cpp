@@ -61,14 +61,13 @@ int loadData(const char* filename, bool ignoreFirstRow) {
 		getline(ss, start_time, ',');
 		getline(ss, cpu_time, ',');
 		getline(ss, io_time, ',');
-		if (process_num.length() < 1 || start_time.length() < 1 || cpu_time.length() < 1 || io_time.length() < 1) {
-			continue;
-		}
-		stat.process_number = stoi(process_num);
-		stat.start_time = stoi(start_time);
-		stat.cpu_time = stoi(cpu_time);
-		stat.io_time = stoi(io_time);
-		stats.push_back(stat);
+		if (process_num.length() > 0 || start_time.length() > 0 || cpu_time.length() > 0 || io_time.length() > 0) {
+            stat.process_number = stoi(process_num);
+            stat.start_time = stoi(start_time);
+            stat.cpu_time = stoi(cpu_time);
+            stat.io_time = stoi(io_time);
+            stats.push_back(stat);
+        }
 	}
 	mystream.close();
 	return SUCCESS;
